@@ -11,5 +11,13 @@ def dataset_generator(dataset, session):
       yield session.run(batch)
 
   return gen()
+  
+def generator(x):
+
+  def gen():
+    while 1:
+      yield x()
+
+  return gen()
 
 

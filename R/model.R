@@ -934,7 +934,18 @@ as_generator.tensorflow.python.data.ops.dataset_ops.DatasetV2 <-
   as_generator.tensorflow.python.data.ops.dataset_ops.Dataset
 
 as_generator.function <- function(x) {
-  reticulate::py_iterator(function() keras_array(x()))
+  python_path <- system.file("python", package = "keras")
+  tools <- reticulate::import_from_path("kerastools", path = python_path)
+  ###  same as the basic error message:
+  ###  AttributeError: 'RGenerator' object has no attribute 'shape'
+  ###  (((after temporarily removing validation checks from py_iterator just to make this run)))
+  # reticulate::py_iterator(tools$generator$generator(function() keras_array(x())))
+  ### just to try what happens without py_iterator...
+  ### result is
+  ### ValueError: Output of generator should be a tuple `(x, y, sample_weight)` or `(x, y)`. Found: [array([[0.48330247, 0.62581122, 0.23775523, ..., 0.0647834
+  # tools$generator$generator(function() keras_array(x()))
+  ### same without keras_array
+  # tools$generator$generator(function() x())
 }
 
 as_generator.keras_preprocessing.sequence.TimeseriesGenerator <- function(x) {
