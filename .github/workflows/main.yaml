@@ -26,9 +26,10 @@ jobs:
       PIP_NO_WARN_SCRIPT_LOCATION: false
       RETICULATE_AUTOCONFIGURE: 'FALSE'
       CRAN: ${{ matrix.cran }}
-      RETICULATE_MINICONDA_PATH: ${{ temp }}
+      RETICULATE_MINICONDA_PATH: ${{ ../miniconda/ }}
 
     steps:
+      - run: echo $(which conda)
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@master
       - uses: r-lib/actions/setup-pandoc@master
